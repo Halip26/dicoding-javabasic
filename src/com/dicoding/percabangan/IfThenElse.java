@@ -8,5 +8,5 @@ public class IfThenElse {
     } else {
         System.out.println("Kondisi tidak terpenuhi...");
     }
-}
+  }
 }
