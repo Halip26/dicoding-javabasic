@@ -7,8 +7,8 @@ public class MapPlanet{
  
   public static void main(String[] args) {
     // menggunakan HashMap
-    Map<String, Planet> planets = new HashMap();
-    planets.put("key-1", new Planet("Mercury", 0.06)); // method put() untuk menambahkan objek ke Map
+    Map<String, Planet> planets = new HashMap<String, Planet>();
+    planets.put("key-1", new Planet("Mercury", 0.06));
     planets.put("key-2", new Planet("Venus", 0.82));
     planets.put("key-3", new Planet("Earth", 1.00));
     planets.put("key-4", new Planet("Mars", 0.11));
