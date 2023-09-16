@@ -18,7 +18,6 @@ public class Person {
         this.hobby = hobby;
         this.birthDate = birthDate;
         this.GPA = GPA;
-
     }
     public String getName() {
         return name;
