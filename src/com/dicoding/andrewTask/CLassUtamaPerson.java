@@ -2,7 +2,7 @@ package com.dicoding.andrewTask;
 
 import java.util.Date;
 
-public class newClass {
+public class CLassUtamaPerson {
   public static void main(String[] args) {
       // Contoh penggunaan kelas Person
       Person person1 = new Person(); // Menggunakan konstruktor default
