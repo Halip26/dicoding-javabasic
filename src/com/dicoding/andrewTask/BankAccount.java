@@ -54,10 +54,10 @@ public class BankAccount {
 
     // Setter untuk mengubah mata uang
     public void setCurrency(String currency) {
-        if (currency.equals("ID") || currency.equals("US")) {
+        if (currency.equals("IDR") || currency.equals("USD")) {
             this.currency = currency;
         } else {
-            System.out.println("Warning: the currency available only on ID & US!");
+            System.out.println("Warning: the currency available only on IDR & USD!");
         }
     }
 

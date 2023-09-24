@@ -27,3 +27,37 @@ Saat variabel-variabel dideklarasikan dengan access modifier private, kita perlu
 Dengan menggunakan metode getter dan setter, kita dapat menerapkan logika validasi atau aturan bisnis tertentu sebelum nilai atribut diubah. Hal ini membantu menjaga integritas data dan membuat kode yang lebih terstruktur.
 
 Dengan kata lain, penggunaan access modifier private untuk variabel-variabel dalam kelas BankAccount memungkinkan kita untuk membatasi akses langsung ke data dan mengontrol bagaimana nilai-nilai tersebut diakses dan diubah dari luar kelas. Ini mendukung prinsip enkapsulasi dan memastikan penggunaan yang aman dan konsisten dari objek BankAccount.
+
+## Penjelasan BankAccount.java
+
+Berikut adalah penjelasan kode dalam bahasa Indonesia:
+
+Kode di atas adalah sebuah kelas BankAccount yang merepresentasikan akun bank. Di dalam kelas ini terdapat beberapa variabel, yaitu accountNumber (nomor akun), balance (saldo), cardOpeningDate (tanggal pembukaan kartu), dan currency (mata uang).
+
+Kemudian, terdapat sebuah konstruktor yang digunakan untuk menginisialisasi objek BankAccount dengan parameter nomor akun, saldo awal, dan mata uang. Konstruktor ini juga menginisialisasi tanggal pembukaan kartu dengan menggunakan tanggal hari ini.
+
+Kelas BankAccount juga memiliki beberapa getter dan setter untuk mendapatkan dan mengubah nilai dari variabel accountNumber, balance, cardOpeningDate, dan currency.
+
+Selain itu, kelas ini memiliki metode save() untuk menyimpan sejumlah uang ke dalam akun. Metode ini akan menambahkan nilai amount ke variabel balance dan mencetak pesan bahwa penyimpanan berhasil beserta saldo terbaru.
+
+Kelas BankAccount juga memiliki metode withdraw() untuk menarik sejumlah uang dari akun. Metode ini akan memeriksa apakah saldo mencukupi sebelum melakukan penarikan. Jika saldo cukup, maka nilai amount akan dikurangi dari variabel balance dan mencetak pesan bahwa penarikan berhasil beserta saldo terbaru. Jika saldo tidak mencukupi, maka akan mencetak pesan bahwa saldo tidak mencukupi.
+
+Selain itu, terdapat validasi pada metode setCurrency() dimana nilai currency hanya dapat bernilai "ID" atau "US". Jika nilai currency tidak sesuai, maka akan mencetak pesan peringatan bahwa mata uang yang tersedia hanya "ID" dan "US".
+
+Demikian penjelasan mengenai kode tersebut dalam bahasa Indonesia.
+
+## Penjelasan Main.java
+
+Kode di atas adalah sebuah program sederhana yang memungkinkan pengguna untuk mengelola akun bank. Program ini menggunakan konsep objek dan menerima input dari pengguna menggunakan kelas Scanner.
+
+Pada awal program, pengguna diminta untuk memasukkan nomor akun, saldo awal, dan mata uang. Nilai-nilai ini kemudian digunakan untuk membuat objek BankAccount.
+
+Setelah objek BankAccount berhasil dibuat, program akan menampilkan informasi tentang akun tersebut, seperti nomor akun, saldo, tanggal pembukaan kartu, dan mata uang.
+
+Selanjutnya, pengguna diminta untuk memasukkan jumlah uang yang ingin disimpan ke dalam akun. Setelah itu, program akan memanggil metode save() dari objek BankAccount untuk menyimpan uang tersebut ke dalam akun.
+
+Kemudian, pengguna diminta untuk memasukkan jumlah uang yang ingin ditarik. Program akan memanggil metode withdraw() dari objek BankAccount untuk menarik uang tersebut dari akun.
+
+Terakhir, program akan menutup objek Scanner yang digunakan untuk menerima input dari pengguna.
+
+Metode getNextDouble() digunakan untuk memvalidasi input pengguna dan memastikan bahwa yang dimasukkan adalah angka. Jika input yang dimasukkan bukan angka, pesan kesalahan akan ditampilkan dan pengguna diminta untuk memasukkan input yang benar.
