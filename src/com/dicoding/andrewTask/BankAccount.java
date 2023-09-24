@@ -15,7 +15,7 @@ public class BankAccount {
       // Menggunakan tanggal hari ini
       this.cardOpeningDate = new Date(); 
       this.currency = currency;
-  }
+    }
 
     // Getter untuk mendapatkan nomor akun
     public String getAccountNumber() {
@@ -52,14 +52,14 @@ public class BankAccount {
         return currency;
     }
 
-  // Setter untuk mengubah mata uang
-  public void setCurrency(String currency) {
-    if (currency.equals("ID") || currency.equals("US")) {
-        this.currency = currency;
-    } else {
-        System.out.println("Warning: the currency available only on ID & US!");
+    // Setter untuk mengubah mata uang
+    public void setCurrency(String currency) {
+        if (currency.equals("ID") || currency.equals("US")) {
+            this.currency = currency;
+        } else {
+            System.out.println("Warning: the currency available only on ID & US!");
+        }
     }
-  }
 
     // Metode save untuk menyimpan sejumlah uang ke dalam akun
     public void save(double amount) {

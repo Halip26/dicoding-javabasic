@@ -52,6 +52,6 @@ public class Main {
       }
       
       return Double.parseDouble(scanner.nextLine());
-  }
+    }
   
 }
