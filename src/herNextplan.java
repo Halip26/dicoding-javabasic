@@ -7,7 +7,7 @@ public class herNextplan {
         boolean isRunning = true;
         
         while (isRunning) {
-            System.out.print("Enter her next plan?: ");
+            System.out.print("Enter her next plan? : ");
             String herNextPlan = scanner.nextLine();
             
             if (herNextPlan.equals("get married")) {
