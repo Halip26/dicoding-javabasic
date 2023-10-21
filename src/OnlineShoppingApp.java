@@ -2,6 +2,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 class User {
     private String username;
@@ -35,12 +36,16 @@ class User {
     public List<List<CartItem> > getPurchaseHistory() {
         return purchaseHistory;
     }
+
+    public void setBalance(double d) {
+        balance = d;
+    }
 }
 
 class Item {
     private String name;
     private double price;
-    private int stock;
+    int stock;
     private String description;
 
     public Item(String name, double price, int stock, String description) {
@@ -85,7 +90,7 @@ class CartItem {
     }
 }
 
-public class BelanjaBarangOnline {
+public class OnlineShoppingApp {
     private Map<String, User> users = new HashMap<>();
     private Map<String, Item> items = new HashMap<>();
 
@@ -126,6 +131,7 @@ public class BelanjaBarangOnline {
             return "Stok barang tidak mencukupi";
         }
         user.getCart().add(new CartItem(item, quantity));
+        item.stock -= quantity;
         return quantity + " " + itemName + " berhasil ditambahkan ke keranjang belanja";
     }
 
@@ -141,6 +147,7 @@ public class BelanjaBarangOnline {
                     return "Jumlah barang dalam keranjang tidak mencukupi";
                 }
                 user.getCart().remove(cartItem);
+                item.stock += quantity;
                 return quantity + " " + itemName + " berhasil dihapus dari keranjang belanja";
             }
         }
@@ -182,15 +189,19 @@ public class BelanjaBarangOnline {
         if (user == null) {
             return "Pengguna tidak ditemukan";
         }
-        StringBuilder history = new StringBuilder("Riwayat Belanja:\n");
-        for (List<CartItem> cart : user.getPurchaseHistory()) {
+        List<List<CartItem>> history = user.getPurchaseHistory();
+        if (history.isEmpty()) {
+            return "Riwayat belanja kosong";
+        }
+        StringBuilder historyString = new StringBuilder("Riwayat Belanja:\n");
+        for (List<CartItem> cart : history) {
             for (CartItem cartItem : cart) {
-                history.append(cartItem.getItem().getName()).append(" - Harga: $")
+                historyString.append(cartItem.getItem().getName()).append(" - Harga: $")
                         .append(cartItem.getItem().getPrice()).append(" - Jumlah: ")
                         .append(cartItem.getQuantity()).append("\n");
             }
         }
-        return history.toString();
+        return historyString.toString();
     }
 
     public String logout(String username) {
@@ -202,16 +213,90 @@ public class BelanjaBarangOnline {
     }
 
     public static void main(String[] args) {
-        BelanjaBarangOnline onlineShop = new BelanjaBarangOnline();
-        System.out.println(onlineShop.addUser("user1", "Jl. Contoh 123", 1000));
-        System.out.println(onlineShop.addItem("Barang A", 10, 50, "Deskripsi Barang A"));
-        System.out.println(onlineShop.addItem("Barang B", 20, 30, "Deskripsi Barang B"));
+        OnlineShoppingApp onlineShop = new OnlineShoppingApp();
+        Scanner scanner = new Scanner(System.in);
 
-        System.out.println(onlineShop.addToCart("user1", "Barang A", 5));
-        System.out.println(onlineShop.addToCart("user1", "Barang B", 3));
-        System.out.println(onlineShop.calculateTotal("user1"));
-        System.out.println(onlineShop.makePayment("user1"));
-        System.out.println(onlineShop.viewPurchaseHistory("user1"));
-        System.out.println(onlineShop.logout("user1"));
+        System.out.println("Selamat datang di Online Shopping App!");
+
+        while (true) {
+            System.out.println("\nSilakan pilih tindakan yang ingin Anda lakukan:");
+            System.out.println("1. Buat akun");
+            System.out.println("2. Lihat katalog barang");
+            System.out.println("3. Tambahkan barang ke keranjang");
+            System.out.println("4. Hapus barang dari keranjang");
+            System.out.println("5. Hitung total belanja");
+            System.out.println("6. Lakukan pembayaran");
+            System.out.println("7. Lihat riwayat belanja");
+            System.out.println("8. Keluar");
+            System.out.println("----------------------------------");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Membuang newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Masukkan nama pengguna: ");
+                    String username = scanner.nextLine();
+                    System.out.print("Masukkan alamat: ");
+                    String address = scanner.nextLine();
+                    System.out.print("Masukkan saldo akun: ");
+                    double balance = scanner.nextDouble();
+                    scanner.nextLine(); // Membuang newline
+                    System.out.println(onlineShop.addUser(username, address, balance));
+                    break;
+
+                case 2:
+                    System.out.println(onlineShop.viewCatalog());
+                    break;
+
+                case 3:
+                    System.out.print("Masukkan nama pengguna: ");
+                    username = scanner.nextLine();
+                    System.out.print("Masukkan nama barang yang ingin ditambahkan ke keranjang: ");
+                    String itemName = scanner.nextLine();
+                    System.out.print("Masukkan jumlah barang: ");
+                    int quantity = scanner.nextInt();
+                    scanner.nextLine(); // Membuang newline
+                    System.out.println(onlineShop.addToCart(username, itemName, quantity));
+                    break;
+
+                case 4:
+                    System.out.print("Masukkan nama pengguna: ");
+                    username = scanner.nextLine();
+                    System.out.print("Masukkan nama barang yang ingin dihapus dari keranjang: ");
+                    itemName = scanner.nextLine();
+                    System.out.print("Masukkan jumlah barang yang ingin dihapus: ");
+                    quantity = scanner.nextInt();
+                    scanner.nextLine(); // Membuang newline
+                    System.out.println(onlineShop.removeFromCart(username, itemName, quantity));
+                    break;
+
+                case 5:
+                    System.out.print("Masukkan nama pengguna: ");
+                    username = scanner.nextLine();
+                    System.out.println(onlineShop.calculateTotal(username));
+                    break;
+
+                case 6:
+                    System.out.print("Masukkan nama pengguna: ");
+                    username = scanner.nextLine();
+                    System.out.println(onlineShop.makePayment(username));
+                    break;
+
+                case 7:
+                    System.out.print("Masukkan nama pengguna: ");
+                    username = scanner.nextLine();
+                    System.out.println(onlineShop.viewPurchaseHistory(username));
+                    break;
+
+                case 8:
+                    System.out.println("Terima kasih telah menggunakan Online Shopping App!");
+                    scanner.close();
+                    System.exit(0);
+
+                default:
+                    System.out.println("Pilihan tidak valid. Silakan coba lagi.");
+            }
+        }
     }
 }

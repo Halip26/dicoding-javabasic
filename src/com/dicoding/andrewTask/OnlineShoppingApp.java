@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 class User {
     private String username;
@@ -36,6 +37,10 @@ class User {
 
     public List<List<CartItem> > getPurchaseHistory() {
         return purchaseHistory;
+    }
+
+    public void setBalance(double d) {
+      balance = d;
     }
 }
 
@@ -86,7 +91,7 @@ class CartItem {
 }
 
 // Class utama atau program utamanya
-public class OnlineShopping {
+public class OnlineShoppingApp {
   private Map<String, User> users = new HashMap<>();
   private Map<String, Item> items = new HashMap<>();
 
@@ -99,12 +104,12 @@ public class OnlineShopping {
     return "Akun berhasil dibuat";
   }
 
-  public String addItem (String name, double price, int stock, String description) {
-     if (items.containsKey(name) {
-      return "Barang sudah ada dalam katalog";
+  public String addItem(String name, double price, int stock, String description) {
+    if (items.containsKey(name)) {
+        return "Barang sudah ada dalam katalog";
     }
-    Item item= new Item(name, price, stock, description);
+    Item item = new Item(name, price, stock, description);
     items.put(name, item);
-    return "Barang berhasil ditambahkan dalam katalog";
+    return "Barang berhasil ditambahkan ke katalog";
   }
 }
