@@ -3,7 +3,7 @@ package com.dicoding.andrewTask.onlineShop;
 import java.util.ArrayList;
 import java.util.List;
 
-class User {
+public class User {
     private String username;
     private String address;
     private double balance;

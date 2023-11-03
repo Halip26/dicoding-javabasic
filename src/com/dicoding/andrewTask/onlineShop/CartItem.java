@@ -1,20 +1,19 @@
 package com.dicoding.andrewTask.onlineShop;
 
-class CartItem {
-  private Item item;
-  private int quantity;
+public class CartItem {
+    private Item item;
+    private int quantity;
 
-  public CartItem(Item item, int quantity) {
-    this.item = item;
-    this.quantity = quantity;
-  }
+    public CartItem(Item item, int quantity) {
+        this.item = item;
+        this.quantity = quantity;
+    }
 
-  public Item getItem() {
-    return item;
-  }
+    public Item getItem() {
+        return item;
+    }
 
-  public int getQuantity() {
-    return quantity;
-  }
-
+    public int getQuantity() {
+        return quantity;
+    }
 }

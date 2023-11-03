@@ -1,6 +1,6 @@
 package com.dicoding.andrewTask.onlineShop;
 
-class Item {
+public class Item {
   private String name;
   private double price;
   int stock;
