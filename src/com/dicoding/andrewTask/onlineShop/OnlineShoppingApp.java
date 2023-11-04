@@ -69,7 +69,10 @@ public class OnlineShoppingApp {
         return "Stock barang tidak mencukupi";
     }
 
-    user.getCart().add(new CartItem(item, quantity));
+    // Buat instance CartItem dan tambahkan ke keranjang belanja pengguna
+    CartItem cartItem = new CartItem(item, quantity);
+    user.getCart().add(cartItem);
+
     return quantity + " " + itemName + " berhasil ditambahkan ke keranjang belanja";
   }
 
@@ -169,6 +172,12 @@ public class OnlineShoppingApp {
   public static void main(String[] args) {
     OnlineShoppingApp onlineShop = new OnlineShoppingApp();
     Scanner scanner = new Scanner(System.in);
+
+    // Tambabkan barang-barang elektronik ke katalog
+    onlineShop.addItem("Laptop", 1000.0, 10, "Laptop gaming kondisi bagus");
+    onlineShop.addItem("Smartphone", 500.0, 20, "Ponsel terbaru 2023");
+    onlineShop.addItem("TV", 800.0, 15, "TV LED 4K");
+
 
     System.out.println("Selamat datang di online Shopping App!");
 
