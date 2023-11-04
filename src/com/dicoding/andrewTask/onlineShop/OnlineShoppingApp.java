@@ -9,8 +9,6 @@ import java.util.Scanner;
 // Class utama atau program utamanya
 public class OnlineShoppingApp {
   private Map<String, User> users = new HashMap<>();
-  // Menyimpan katalog barang untuk setiap pengguna
-  private Map<String, Map<String, Item>> userCatalogs = new HashMap<>(); 
   private Map<String, Item> items = new HashMap<>();
 
   public String addUser (String username, String address, double balance) {
@@ -31,48 +29,27 @@ public class OnlineShoppingApp {
     return "Barang berhasil ditambahkan ke katalog";
   }
 
-  public String viewCatalog(String username) {
-    User user = users.get(username);
-    if (user == null) {
-        return "Pengguna tidak ditemukan";
-    }
-
-    Map<String, Item> catalog = userCatalogs.get(username);
-    if (catalog == null) {
-        return "Katalog barang kosong";
-    }
-
-    StringBuilder catalogString = new StringBuilder("Katalog Barang " + username + ":\n");
-    for (Item item : catalog.values()) {
-        catalogString.append(item.getName()).append(" - Harga: Rp.").append(item.getPrice()).append(" - Stock: ").append(item.getStock()).append("\n");
-    }
-    return catalogString.toString();
+  public String viewCatalog() {
+    StringBuilder catalog = new StringBuilder("Katalog Barang:\n");
+    for (Item item : items.values()) {
+      catalog.append(item.getName()).append(" - Harga: Rp.").append(item.getPrice()).append(" - Stock: ").append(item.getStock()).append("\n");
+    } 
+    return catalog.toString();
   }
 
   public String addToCart(String username, String itemName, int quantity) {
     User user = users.get(username);
-    if (user == null) {
-        return "Pengguna tidak ditemukan";
-    }
+    Item item = items.get(itemName);
 
-    Map<String, Item> catalog = userCatalogs.get(username);
-    if (catalog == null) {
-        return "Katalog barang kosong";
-    }
-
-    Item item = catalog.get(itemName);
-    if (item == null) {
-        return "Barang tidak ditemukan dalam katalog";
+    if (user == null || item == null) {
+      return "Pengguna atau barang tidak ditemukan";
     }
 
     if (item.getStock() < quantity) {
-        return "Stock barang tidak mencukupi";
+      return "Stock barang tidak mencukupi";
     }
-
-    // Buat instance CartItem dan tambahkan ke keranjang belanja pengguna
-    CartItem cartItem = new CartItem(item, quantity);
-    user.getCart().add(cartItem);
-
+    user.getCart().add(new CartItem(item, quantity));
+    item.stock -= quantity;
     return quantity + " " + itemName + " berhasil ditambahkan ke keranjang belanja";
   }
 
@@ -111,28 +88,16 @@ public class OnlineShoppingApp {
   public String makePayment(String username) {
     User user = users.get(username);
     if (user == null) {
-        return "Pengguna tidak ditemukan";
+      return "Pengguna tidak ditemukan";
     }
 
     double total = 0;
-    Map<String, Item> catalog = userCatalogs.get(username);
-
-    if (catalog == null) {
-        return "Katalog barang kosong";
-    }
-
     for (CartItem cartItem : user.getCart()) {
-        Item item = catalog.get(cartItem.getItem().getName());
-        if (item != null) {
-            total += item.getPrice() * cartItem.getQuantity();
-            item.stock += cartItem.getQuantity(); // Mengembalikan stok
-        }
+      total += cartItem.getItem().getPrice() * cartItem.getQuantity();
     }
-
-    if (user.getBalance() < total) {
-        return "Saldo tidak mencukupi";
+    if (user.getBalance() < total ) {
+      return "Saldo tidak mencukupi";
     }
-
     user.getCart().clear();
     user.getPurchaseHistory().add(new ArrayList<>(user.getCart()));
     user.setBalance(user.getBalance() - total);
@@ -177,12 +142,21 @@ public class OnlineShoppingApp {
     onlineShop.addItem("Laptop", 1000.0, 10, "Laptop gaming kondisi bagus");
     onlineShop.addItem("Smartphone", 500.0, 20, "Ponsel terbaru 2023");
     onlineShop.addItem("TV", 800.0, 15, "TV LED 4K");
-
+    onlineShop.addItem("SSD Drive", 120.0, 25, "Storage besar 2TB");
+    onlineShop.addItem("Headphone", 50.0, 30, "Headphone berkualitas tinggi");
+    onlineShop.addItem("Kamera DSLR", 1500.0, 8, "Kamera DSLR profesional");
+    onlineShop.addItem("Smartwatch", 300.0, 12, "Smartwatch pintar dengan berbagai fitur");
+    onlineShop.addItem("Speaker Bluetooth", 80.0, 18, "Speaker Bluetooth portabel");
+    onlineShop.addItem("Drone", 700.0, 6, "Drone dengan kamera 4K");
+    onlineShop.addItem("Monitor Komputer", 250.0, 14, "Monitor resolusi tinggi");
+    onlineShop.addItem("Mouse Gaming", 40.0, 22, "Mouse gaming dengan sensor akurat");
+    onlineShop.addItem("Printer Inkjet", 150.0, 11, "Printer inkjet berkualitas tinggi");
+    onlineShop.addItem("Router WiFi", 60.0, 17, "Router WiFi cepat");
 
     System.out.println("Selamat datang di online Shopping App!");
 
     while (true) {
-      System.out.println("\nSilahkan pilih tindakan yang ingin Anda lakukan:");
+      System.out.println("\nSilahkan pilih tindakan yg ingin Anda lakukan:");
       System.out.println("1. Buat akun");
       System.out.println("2. Lihat katalog barang");
       System.out.println("3. Tambahkan barang ke keranjang");
@@ -209,13 +183,11 @@ public class OnlineShoppingApp {
           System.out.println(onlineShop.addUser(username, address, balance));
           break;
 
-        case 2 :
-          System.out.print("Masukkan nama pengguna: ");
-          username = scanner.nextLine();
-          System.out.println(onlineShop.viewCatalog(username));
+        case 2 : 
+          System.out.println(onlineShop.viewCatalog());
           break;
 
-        case 3 :
+        case 3:
           System.out.print("Masukkan nama pengguna: ");
           username = scanner.nextLine();
           System.out.print("Masukkan nama barang yang ingin ditambahkan ke keranjang: ");
@@ -225,7 +197,7 @@ public class OnlineShoppingApp {
           scanner.nextLine(); // Membuang newline
           System.out.println(onlineShop.addToCart(username, itemName, quantity));
           break;
-        case 4 :
+        case 4:
           System.out.print("Masukkan nama pengguna: ");
           username = scanner.nextLine();
           System.out.print("Masukkan nama barang yang ingin dihapus dari keranjang: ");
@@ -235,17 +207,17 @@ public class OnlineShoppingApp {
           scanner.nextLine(); // Membuang newline
           System.out.println(onlineShop.removeFromCart(username, itemName, quantity));
           break;
-        case 5 :
+        case 5:
           System.out.print("Masukkan nama pengguna: ");
           username = scanner.nextLine();
           System.out.println(onlineShop.calculateTotal(username));
           break;
-        case 6 :
+        case 6:
           System.out.print("Masukkan nama pengguna: ");
           username = scanner.nextLine();
           System.out.println(onlineShop.makePayment(username));
           break;
-        case 7 :
+        case 7:
           System.out.print("Masukkan nama pengguna: ");
           username = scanner.nextLine();
           System.out.println(onlineShop.viewPurchaseHistory(username));
@@ -254,10 +226,10 @@ public class OnlineShoppingApp {
           System.out.println("Terima kasih telah menggunakan Online Shopping App!");
           scanner.close();
           System.exit(0);
-          break;
         default:
           System.out.println("Pilihan tidak valid. Silakan coba lagi.");
       }
     }
   } 
 }
+
