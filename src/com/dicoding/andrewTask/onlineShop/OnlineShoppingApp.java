@@ -31,9 +31,20 @@ public class OnlineShoppingApp {
 
   public String viewCatalog() {
     StringBuilder catalog = new StringBuilder("Katalog Barang:\n");
+    int nomor = 1; // inisialisasi variable nomor
+    
+    // looping for untuk menampilkan nomor barang
     for (Item item : items.values()) {
-      catalog.append(item.getName()).append(" - Harga: Rp.").append(item.getPrice()).append(" - Stock: ").append(item.getStock()).append("\n");
+      catalog.append(nomor).append(". ")
+            .append(item.getName())
+            .append(" - Harga: Rp.")
+            .append(item.getPrice())
+            .append(" - Stock: ")
+            .append(item.getStock())
+            .append("\n");
+      nomor++; // penghitung kenaikan setelah setiap iterasi
     } 
+  
     return catalog.toString();
   }
 
@@ -90,40 +101,48 @@ public class OnlineShoppingApp {
     if (user == null) {
       return "Pengguna tidak ditemukan";
     }
-
+  
     double total = 0;
     for (CartItem cartItem : user.getCart()) {
       total += cartItem.getItem().getPrice() * cartItem.getQuantity();
     }
-    if (user.getBalance() < total ) {
+    if (user.getBalance() < total) {
       return "Saldo tidak mencukupi";
     }
-    user.getCart().clear();
     user.getPurchaseHistory().add(new ArrayList<>(user.getCart()));
+    // kosongkan keranjang setelah menambahkannya ke riwayat pembelian
+    user.getCart().clear(); 
     user.setBalance(user.getBalance() - total);
     return "Pembayaran berhasil";
   }
 
-  public String viewPurchaseHistory(String username) {
+public String viewPurchaseHistory(String username) {
     User user = users.get(username);
     if (user == null) {
-      return "Pengguna tidak ditemukan";
+        return "Pengguna tidak ditemukan";
     }
-    
+
     List<List<CartItem>> history = user.getPurchaseHistory();
 
     if (history.isEmpty()) {
-      return "Riwayat belanja kosong";
+        return "Riwayat belanja kosong";
     }
 
     StringBuilder historyString = new StringBuilder("Riwayat Belanja:\n");
+    int nomor = 1; // inisialisasi variabel nomor
+    // looping untuk memberi nomor urutan pesanan
     for (List<CartItem> cart : history) {
-      for (CartItem cartItem : cart) {
-        historyString.append(cartItem.getItem().getName()).append(" - Harga: Rp.").append(cartItem.getItem().getPrice()).append(" - Jumlah: ").append(cartItem.getQuantity()).append("\n");
-      }
+        historyString.append("Pesanan ").append(nomor).append(":\n");
+        for (CartItem cartItem : cart) {
+            historyString.append(cartItem.getItem().getName())
+                .append(" - Harga: Rp.").append(cartItem.getItem().getPrice())
+                .append(" - Jumlah: ").append(cartItem.getQuantity())
+                .append("\n");
+        }
+        nomor++; // angka kenaikan setelah setiap iterasi
     }
     return historyString.toString();
-  }
+}
 
   public String logout (String username) {
     User user = users.get(username);
